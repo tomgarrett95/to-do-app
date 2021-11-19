@@ -33,5 +33,20 @@ return function (ContainerBuilder $containerBuilder) {
         return $renderer;
     };
 
+    $container['dbConnection'] = function (ContainerInterface $c) {
+        $settings = $c->get('settings')['db'];
+        $db = new PDO($settings['host'] . $settings['dbname'], $settings['username'], $settings['password']);
+        $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+        return $db;
+    };
+
+    $container['AddTaskController'] = DI\Factory('App\Factories\AddTaskControllerFactory');
+    $container['AddTaskModel'] = DI\Factory('App\Factories\AddTaskModelFactory');
+    $container['AddTaskFormController'] = DI\Factory('App\Factories\AddTaskFormControllerFactory');
+    $container['EditTaskController'] = DI\Factory('App\Factories\EditTaskControllerFactory');
+    $container['EditTaskModel'] = DI\Factory('App\Factories\EditTaskModelFactory');
+    $container['ViewTasksController'] = DI\Factory('App\Factories\ViewTasksControllerFactory');
+    $container['ViewTasksModel'] = DI\Factory('App\Factories\ViewTasksModelFactory');
+
     $containerBuilder->addDefinitions($container);
 };
